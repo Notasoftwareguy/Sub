@@ -29,6 +29,23 @@ hostname -I
 
 Commands for setting up deck:
 
+passwd
+
+sudo pacman-key --init
+sudo pacman-key --populate archlinux holo
+
+mkdir -p ~/podman-storage
+mkdir -p ~/.config/containers
+touch ~/.config/containers/storage.conf
+
+Paste this in:
+[storage]
+driver = "overlay"
+graphroot = "/home/deck/podman-storage"
+runroot = "/home/deck/podman-storage/run"
+
+rm -rf ~/.local/share/containers
+
 sudo pacman -S distrobox podman
 
 distrobox create -n sub -i archlinux:latest \
