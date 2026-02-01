@@ -11,6 +11,10 @@ Assigning static IPs:
 sudo ip addr add 192.168.10.1/24 dev enp5s0
 sudo ip link set enp5s0 up
 
+sudo ip addr add 192.168.10.1/24 dev enx00e04c1a1588
+sudo ip link set enx00e04c1a1588 up
+
+
     Deck:
 sudo ip addr add 192.168.10.1/24 dev enp4s0f3u1u1
 sudo ip link set enp4s0f3u1u1 up
@@ -20,9 +24,8 @@ sudo ip link set enp4s0f3u1u1 up
 sudo ip addr add 192.168.10.2/24 dev eth0
 sudo ip link set eth0 up
 
-
 Starting stream on Pi:
-gst-launch-1.0 v4l2src device=/dev/video0 ! videoconvert ! x264enc tune=zerolatency bitrate=1000 speed-preset=ultrafast ! rtph264pay config-interval=1 pt=96 ! udpsink host=192.168.10.1 port=5000
+gst-launch-1.0 v4l2src device=/dev/video0 ! videoconvert ! x264enc tune=zerolatency bitrate=5000 speed-preset=ultrafast ! rtph264pay config-interval=1 pt=96 ! udpsink host=192.168.10.1 port=5000
 
 Checking IP address:
 hostname -I
@@ -37,26 +40,6 @@ sudo pacman-key --populate archlinux holo
 sudo pacman -S --needed base-devel cmake git python-numpy \
 gstreamer gst-plugins-base gst-plugins-good gst-plugins-bad \
 gst-plugins-ugly gst-libav
-
-mkdir ~/opencv_build && cd ~/opencv_build
-git clone https://github.com/opencv/opencv.git
-git clone https://github.com/opencv/opencv_contrib.git
-cd opencv && mkdir build && cd build
-
-cmake -D CMAKE_BUILD_TYPE=RELEASE \
--D CMAKE_INSTALL_PREFIX=/usr/local \
--D OPENCV_EXTRA_MODULES_PATH=../../opencv_contrib/modules \
--D WITH_GSTREAMER=ON \
--D WITH_FFMPEG=ON \
--D BUILD_opencv_python3=ON \
--D PYTHON3_EXECUTABLE=$(which python3) \
--D PYTHON3_INCLUDE_DIR=$(python3 -c "import sysconfig; print(sysconfig.get_path('include'))") \
--D PYTHON3_PACKAGES_PATH=$(python3 -c "import sysconfig; print(sysconfig.get_path('purelib'))") \
--D BUILD_EXAMPLES=OFF ..
-
-make -j$(nproc)
-sudo make install
-sudo ldconfig
 
 python3 -c "import cv2; print(cv2.getBuildInformation())"
 

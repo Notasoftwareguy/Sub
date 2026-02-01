@@ -4,8 +4,9 @@ import time
 
 class NonBlockingStream:
     def __init__(self, src):
-        self.cap = cv2.VideoCapture(src, cv2.CAP_GSTREAMER)
-        self.grabbed, self.frame = self.cap.read()
+        self.gstpipeline = src
+        self.cap = self.grabbed = self.frame = False # cv2.VideoCapture(src, cv2.CAP_GSTREAMER)
+        # self.grabbed, self.frame = self.cap.read()
         self.started = False
         self.read_lock = threading.Lock()
 
@@ -21,12 +22,18 @@ class NonBlockingStream:
 
     def update(self):
         while self.started:
-            grabbed, frame = self.cap.read()
-            with self.read_lock:
-                self.grabbed = grabbed
-                self.frame = frame
-                self.updated = True
-
+            try:
+                if not self.cap:
+                    self.cap = cv2.VideoCapture(self.gstpipeline, cv2.CAP_GSTREAMER)
+                else:
+                    grabbed, frame = self.cap.read()
+                    with self.read_lock:
+                        self.grabbed = grabbed
+                        self.frame = frame
+                        self.updated = True
+            except:
+                self.cap = False
+            
     def read(self):
         with self.read_lock:
             if self.updated:
