@@ -10,21 +10,25 @@
 ### Built in ethernet port
 
 sudo ip addr add 192.168.10.1/24 dev enp5s0
+
 sudo ip link set enp5s0 up
 
 ### USB hub
 
 sudo ip addr add 192.168.10.1/24 dev enx00e04c1a1588
+
 sudo ip link set enx00e04c1a1588 up
 
 ### Deck with crappy adapter
 
 sudo ip addr add 192.168.10.1/24 dev enp4s0f3u1u1
+
 sudo ip link set enp4s0f3u1u1 up
 
 ### Pi
 
 sudo ip addr add 192.168.10.2/24 dev eth0
+
 sudo ip link set eth0 up
 
 ## Starting stream on Pi (until its automatic)
