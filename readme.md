@@ -29,10 +29,14 @@ sudo ip link set eth0 up
 
 ## Starting stream on Pi (until its automatic)
 
-gst-launch-1.0 v4l2src device=/dev/video0 ! videoconvert ! x264enc tune=zerolatency bitrate=5000 speed-preset=ultrafast ! rtph264pay config-interval=1 pt=96 ! udpsink host=192.168.10.1 port=5000
+sudo gst-launch-1.0 v4l2src device=/dev/video0 ! videoconvert ! x264enc tune=zerolatency bitrate=5000 speed-preset=ultrafast ! rtph264pay config-interval=1 pt=96 ! udpsink host=192.168.10.1 port=5000
 
 
 # Sub Computer
+
+## Connecting locally over ethernet
+
+Plug into macbook with usb adapter, then in terminal use `ssh pi@pi.local`
 
 ## Building 
 
