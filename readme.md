@@ -34,6 +34,10 @@ gst-launch-1.0 v4l2src device=/dev/video0 ! videoconvert ! x264enc tune=zerolate
 
 # Sub Computer
 
+## Connecting to pi from macbook (local)
+
+Connect pi to macbook with usb to ethernet adapter then use `ssh pi@pi.local`
+
 ## Building 
 
 * Pretty much everything has to be done from the computer folder. That is the "ROS2 workspace"
