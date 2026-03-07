@@ -55,11 +55,15 @@ def main():
     print("Press Ctrl+C or close the window to exit.\n")
 
     # Sub communication setup
-    received_data = SubData()
-    surface_data_server = SubCommunicator(host=CONTROLLER_IP, port=SURFACE_DATA_PORT)
-    surface_data_server.receive_callback = received_data.add_data
-    surface_data_server.start_server()
+    # received_data = SubData()
+    # surface_data_server = SubCommunicator(host=CONTROLLER_IP, port=SURFACE_DATA_PORT)
+    # surface_data_server.receive_callback = received_data.add_data
+    # surface_data_server.start_server()
     sub_data_client = SubCommunicator(host=SUB_IP, port=SUB_DATA_PORT)
+    sub_data_client.connect()
+
+    # surface_data_server = []
+    # sub_data_client = []
 
     # Final variable setup
     last_frame_time = time.time()
@@ -70,6 +74,9 @@ def main():
     current_window_height = WINDOW_HEIGHT
     reported_failure = True
     last_control_transmit_time = time.time()
+    
+    if not sub_data_client.connection:
+        print("No data connection to sub!")
 
     # Main loop
     try:
@@ -121,19 +128,21 @@ def main():
             screen.blit(time_text, text_rect)
             
             ### Controls ###
-            if sub_data_client.connection is None:
-                success = sub_data_client.connect()
-
-                if not reported_failure and not success:
+            if sub_data_client and sub_data_client.connection is None:
+                sub_data_client.connect()
+                print("trying to connect")
+                if not reported_failure and sub_data_client.connection is None:
                     print("Lost data connection to sub!")
                     reported_failure = True
-                if success:
+                if sub_data_client.connection is not None:
                     print("Reconnected to sub data.")
                     reported_failure = False
 
-            if sub_data_client.connection is not None:
+            if sub_data_client and sub_data_client.connection is not None:
                 controls = get_controls()
-                if not sub_data_client.send('STICKS ' + ' '.join(map(str, controls))):
+                successful_send = sub_data_client.send('STICKS ' + ' '.join(map(str, controls)))
+                # print(f'good send {successful_send}?')
+                if not successful_send:
                     sub_data_client.close()
                 
 
@@ -150,7 +159,7 @@ def main():
     except KeyboardInterrupt:
         print("\nShutting down...")
     finally:
-        surface_data_server.close()
+        # surface_data_server.close()
         sub_data_client.close()
         cap.stop()
         pygame.quit()

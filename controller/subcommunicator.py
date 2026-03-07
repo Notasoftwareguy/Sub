@@ -85,13 +85,12 @@ class SubCommunicator:
                 self.connection = None
             print(f"Disconnected from {addr}")
     
-    def connect(self) -> bool:
+    def connect(self):
         """
         Connect to a server.
-        
-        Returns:
-            True if connection successful, False otherwise
+
         """
+
         try:
             self.socket = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
             self.socket.connect((self.host, self.port))
@@ -101,10 +100,10 @@ class SubCommunicator:
             # Start receiving in a thread
             self.receive_thread = threading.Thread(target=self._receive_loop, daemon=True)
             self.receive_thread.start()
-            return True
+            # return True
         except Exception as e:
-            # print(f"Error connecting: {e}")
-            return False
+            print(f"Error connecting: {e}")
+            # return False
     
     def _receive_loop(self, conn: Optional[socket.socket] = None) -> None:
         """Continuously receive messages from the provided connection.
@@ -113,6 +112,14 @@ class SubCommunicator:
         """
         if conn is None:
             conn = self.connection
+        # if conn is None:
+        #     try:
+        #         self.socket = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
+        #         self.socket.connect((self.host, self.port))
+        #         self.connection = self.socket
+        #         conn = self.connection
+        #     except:
+        #         return
         if conn is None:
             return
 

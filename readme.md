@@ -8,9 +8,13 @@
 - last digit of ip needs to be different
 
 ### Built in ethernet port
-
+Desktop
 sudo ip addr add 192.168.10.1/24 dev enp5s0   
 sudo ip link set enp5s0 up
+
+Laptop
+sudo ip addr add 192.168.10.1/24 dev enp0s31f6   
+sudo ip link set enp0s31f6 up
 
 ### USB hub
 
@@ -29,7 +33,7 @@ sudo ip link set eth0 up
 
 ## Starting stream on Pi (until its automatic)
 
-gst-launch-1.0 v4l2src device=/dev/video0 ! videoconvert ! x264enc tune=zerolatency bitrate=5000 speed-preset=ultrafast ! rtph264pay config-interval=1 pt=96 ! udpsink host=192.168.10.1 port=5000
+gst-launch-1.0 v4l2src device=/dev/video0 ! videoconvert ! x264enc tune=zerolatency bitrate=1000 speed-preset=ultrafast ! rtph264pay config-interval=1 pt=96 ! udpsink host=192.168.10.1 port=5000
 
 
 # Sub Computer
