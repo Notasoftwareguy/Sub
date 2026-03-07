@@ -34,9 +34,9 @@ sudo gst-launch-1.0 v4l2src device=/dev/video0 ! videoconvert ! x264enc tune=zer
 
 # Sub Computer
 
-## Connecting locally over ethernet
+## Connecting to pi from macbook (local)
 
-Plug into macbook with usb adapter, then in terminal use `ssh pi@pi.local`
+Connect pi to macbook with usb to ethernet adapter then use `ssh pi@pi.local`
 
 ## Building 
 
