@@ -28,6 +28,7 @@ setup(
             "talk_to_micro = sub_computer.talktomicro:main",
             "surface_publisher = sub_computer.surfacepublisher:main",
             "move_motors = sub_computer.movemotors:main",
+            "video_streamer = sub_computer.videostreamer:main",
         ],
     },
 )

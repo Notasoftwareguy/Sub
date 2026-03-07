@@ -1,0 +1,16 @@
+launch:
+  - node:
+      pkg: "sub_computer"
+      exec: "surface_publisher"
+      name: "surface_publisher"
+      # namespace: "turtlesim1"
+
+  - node:
+      pkg: "sub_computer"
+      exec: "move_motors"
+      name: "move_motors"
+
+  - node:
+      pkg: "sub_computer"
+      exec: "talk_to_micro"
+      name: "talk_to_micro"
