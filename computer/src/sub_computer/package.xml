@@ -8,7 +8,12 @@
   <license>TODO: License declaration</license>
 
   <exec_depend>tutorial_interfaces</exec_depend>
+  <exec_depend>ros2launch</exec_depend>
   <depend>rclpy</depend>
+  <exec_depend>surfacepublisher</exec_depend>
+  <exec_depend>talktomicro</exec_depend>
+  <exec_depend>movemotors</exec_depend>
+  <exec_depend>videostreamer</exec_depend>
 
   <test_depend>ament_copyright</test_depend>
   <test_depend>ament_flake8</test_depend>
